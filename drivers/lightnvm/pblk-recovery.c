@@ -486,9 +486,7 @@ next_rq:
 		line->left_msecs += nr_error_bits;
 		bitmap_clear(line->map_bitmap, line->cur_sec, nr_error_bits);
 
-		pad_secs = pblk_pad_distance(pblk);
-		if (pad_secs > line->left_msecs)
-			pad_secs = line->left_msecs;
+		pad_secs = pblk_pad_distance(pblk, line);
 
 		ret = pblk_recov_pad_oob(pblk, line, pad_secs);
 		if (ret)
