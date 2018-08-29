@@ -969,6 +969,9 @@ static int pblk_blk_erase_sync(struct pblk *pblk, struct ppa_addr ppa)
 
 	pblk_setup_e_rq(pblk, &rqd, ppa);
 
+	trace_pblk_chunk_reset(pblk_disk_name(pblk),
+				&ppa, PBLK_CHUNK_RESET_START);
+
 	/* The write thread schedules erases so that it minimizes disturbances
 	 * with writes. Thus, there is no need to take the LUN semaphore.
 	 */
@@ -1001,9 +1004,6 @@ int pblk_line_erase(struct pblk *pblk, struct pblk_line *line)
 		atomic_dec(&line->left_eblks);
 		WARN_ON(test_and_set_bit(bit, line->erase_bitmap));
 		spin_unlock(&line->lock);
-
-		trace_pblk_chunk_reset(pblk_disk_name(pblk),
-				&ppa, PBLK_CHUNK_RESET_START);
 
 		ret = pblk_blk_erase_sync(pblk, ppa);
 		if (ret) {
