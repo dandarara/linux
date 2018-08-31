@@ -945,6 +945,8 @@ static int nvm_bb_to_chunk(struct nvm_dev *dev, struct ppa_addr ppa,
 			}
 		}
 
+		ppa.g.blk = blk;
+
 		meta->wp = 0;
 		meta->type = NVM_CHK_TP_W_SEQ;
 		meta->wi = 0;
@@ -952,7 +954,6 @@ static int nvm_bb_to_chunk(struct nvm_dev *dev, struct ppa_addr ppa,
 		meta->cnlb = dev->geo.clba;
 
 		if (blktype == NVM_BLK_T_FREE) {
-			ppa.a.blk = blk;
 			ret = nvm_bb_chunk_scan(dev, ppa, meta);
 			if (ret)
 				return ret;
