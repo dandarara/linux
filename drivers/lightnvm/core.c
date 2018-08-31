@@ -998,8 +998,8 @@ static int nvm_get_bb_meta(struct nvm_dev *dev, sector_t slba,
 				goto done;
 
 			ppa_gen.ppa = 0;
-			ppa_gen.a.ch = ch;
-			ppa_gen.a.lun = lun;
+			ppa_gen.g.ch = ch;
+			ppa_gen.g.lun = lun;
 			ppa_dev = generic_to_dev_addr(dev, ppa_gen);
 
 			ret = dev->ops->get_bb_tbl(dev, ppa_dev, blks);
